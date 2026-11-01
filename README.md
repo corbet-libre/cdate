@@ -26,7 +26,7 @@ longDate('de-ch', 2026, 9, 7);
 | Bun | `bun add @corbet-labs/cdate` |
 | Deno | `deno add npm:@corbet-labs/cdate` |
 
-The 0.3.2 JavaScript distribution includes compiled ESM, CommonJS,
+The 0.3.3 JavaScript distribution includes compiled ESM, CommonJS,
 TypeScript declarations, and a standalone browser module. Node.js 20+ is
 supported; no TypeScript loader is required.
 
@@ -37,7 +37,7 @@ const { longDate } = require('@corbet-labs/cdate');
 
 ```html
 <script type="module">
-  import { longDate } from 'https://cdn.jsdelivr.net/npm/@corbet-labs/cdate@0.3.2/dist/browser.js';
+  import { longDate } from 'https://cdn.jsdelivr.net/npm/@corbet-labs/cdate@0.3.3/dist/browser.js';
   console.log(longDate('de-ch', 2026, 9, 7));
 </script>
 ```
@@ -55,6 +55,28 @@ use cdate::{long_date, month_year};
 assert_eq!(long_date("de-ch", 2026, 9, 7).as_deref(), Some("7. September 2026"));
 assert_eq!(month_year("en", 2026, 9).as_deref(), Some("September 2026"));
 ```
+
+### Typst in Rust hosts
+
+The crate also ships the Typst package. Applications that embed the Typst
+compiler can register it from `cdate::typst` instead of downloading or
+vendoring a copy, so Rust and Typst always come from the same release.
+`FILES` holds package-relative paths (`typst.toml`, `typst/date.typ`, …)
+with their bytes; `spec()` is the import specification.
+
+```rust
+use cdate::typst::{FILES, NAME, NAMESPACE, VERSION, spec};
+
+assert_eq!((NAMESPACE, NAME), ("preview", "cdate"));
+assert_eq!(spec(), format!("@preview/cdate:{VERSION}"));
+for (path, bytes) in FILES {
+    // Serve `bytes` for `path` inside the package `spec()` in your Typst world.
+    let _ = (path, bytes.len());
+}
+```
+
+Documents then import the package as usual, for example
+`#import "@preview/cdate:0.3.3": long-date`.
 
 ## Python
 
@@ -102,7 +124,7 @@ for generation, verification, and publication commands.
 
 ## License
 
-Copyright 2026 Julian Y. Richard Corbet. The 0.3.2 release line is licensed
+Copyright 2026 Julian Y. Richard Corbet. The 0.3.3 release line is licensed
 under [LGPL-3.0-only](https://github.com/corbet-foss/cdate/blob/main/LICENSES/LGPL-3.0-only.txt)
 [WITH LGPL-3.0-linking-exception](https://github.com/corbet-foss/cdate/blob/main/LICENSES/LGPL-3.0-linking-exception.txt),
 with the incorporated [GPL version 3](https://github.com/corbet-foss/cdate/blob/main/LICENSES/GPL-3.0-only.txt).
@@ -111,7 +133,7 @@ library modifications stay LGPL. Applications can use a different license
 subject to the LGPL's conditions.
 Previously released and already prepared distributions retain their original
 grants. The installation examples above refer to those available releases;
-0.3.2 is published to registries.
+0.3.3 is published to registries.
 
 See the [licensing notes](https://github.com/corbet-foss/cdate/blob/main/LICENSE.md) for distribution conditions and retained notices.
 Contributions are subject to the [Contributor License Agreement](CLA.md).

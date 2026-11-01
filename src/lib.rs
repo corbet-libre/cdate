@@ -5,13 +5,16 @@
 //! `tables/dates.json` (see `tables/README.md` for the schema and the
 //! resolution rule); `tests/vectors/*.json` is the executable contract
 //! every language port runs. The Typst module in `typst/` derives from the
-//! same table.
+//! same table; [`typst`] embeds its package files for Rust hosts that run
+//! Typst in-process.
 //!
 //! Long and medium lengths mirror ICU4X (`icu_datetime`, CLDR) output.
 //! Same input always yields the same output: no models, no I/O.
 
 use std::collections::{HashMap, HashSet};
 use std::sync::LazyLock;
+
+pub mod typst;
 
 #[derive(serde::Deserialize)]
 struct LocaleEntry {

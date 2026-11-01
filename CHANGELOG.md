@@ -3,6 +3,18 @@
 All notable changes to `cdate` are documented here. The project follows
 Semantic Versioning.
 
+## 0.3.3 - 2026-11-01
+
+- The Rust crate ships the Typst package (`typst.toml`, `typst/**`) and exposes it as data in
+  the new `cdate::typst` module: `NAMESPACE`, `NAME`, `VERSION`, `spec()`
+  (`@preview/cdate:<version>`), and `FILES` (package-relative paths with
+  their bytes, sorted by path). Rust hosts that embed Typst, such as cletter,
+  register the package from the crate instead of vendoring a copy, so Rust
+  and Typst come from the same release. No new dependencies.
+- A Rust test checks `FILES` against the files on disk and `typst.toml`'s
+  name and version against the crate; `scripts/check-versions.py` also
+  requires the Typst package name and files in the crate package.
+
 ## 0.3.2 - 2026-09-24
 
 - Repository moved to github.com/corbet-foss/cdate; registry metadata points there.
